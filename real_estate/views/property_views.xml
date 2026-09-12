@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Property List View (Tree) -->
+    <record id="view_property_tree" model="ir.ui.view">
+        <field name="name">real_estate.property.tree</field>
+        <field name="model">real_estate.property</field>
+        <field name="arch" type="xml">
+            <tree string="Properties">
+                <field name="name"/>   
+                <field name="price"/>
+                <field name="description"/>
+                <field name="bedrooms"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Property Action (Links views together) -->
+    <record id="action_property" model="ir.actions.act_window">
+        <field name="name">Properties</field>
+        <field name="res_model">real_estate.property</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first property
+            </p>
+        </field>
+    </record>
+</odoo>
