@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+   <!-- Tree View -->
+    <record id="view_tenant_tree" model="ir.ui.view">
+        <field name="name">real_estate.tenant.tree</field>
+        <field name="model">real_estate.tenant</field>
+        <field name="arch" type="xml">
+            <tree string="Tenants">
+                <field name="name"/>   
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="mobile"/>
+                <field name="city"/>
+                <field name="date_joined"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_tenant_form" model="ir.ui.view">
+        <field name="name">real_estate.tenant.form</field>
+        <field name="model">real_estate.tenant</field>
+        <field name="arch" type="xml">
+            <form string="Tenant">
+            <!-- <header>
+            <button name="toggle_active" type="object" string="Activate/Deactivate" class="oe_highlight"/>
+            </header> -->
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Tenant Name"/>
+                        </h1>
+                    </div>
+                    <group string="Contact Details">
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="mobile"/> 
+                        </group>
+                        <group>
+                            <field name="city"/>
+                            <field name="date_of_birth"/>
+                            <field name="date_joined"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="active"/>
+                           </group>
+                    <notebook>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Add notes about this tenant..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+   <!-- Action View -->
+    <record id="action_tenant" model="ir.actions.act_window">
+        <field name="name">Tenants</field>
+        <field name="res_model">real_estate.tenant</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Tenant
+            </p>
+        </field>
+    </record>
+</odoo>

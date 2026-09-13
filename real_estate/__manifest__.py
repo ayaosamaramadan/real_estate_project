@@ -26,6 +26,7 @@ Long description of module's purpose
         'views/views.xml',
         'views/templates.xml',
         'views/property_views.xml',
+        'views/tenant.xml',
         'views/menu.xml',
     ],
     # only loaded in demonstration mode

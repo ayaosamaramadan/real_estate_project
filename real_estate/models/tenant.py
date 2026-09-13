@@ -15,3 +15,5 @@ class Tenant(models.Model):
     date_of_birth = fields.Date(string='Date of Birth')
     notes = fields.Text(string='Notes')
     active = fields.Boolean(string='Active', default=True) 
+    
+ 
