@@ -21,6 +21,14 @@
             <form string="Tenant">
             <header>
             <button name="update_notes" type="object" string="Update Notes" class="btn-primary"/>
+            <button name="get_lead_name"
+        type="object"
+        string="Get Lead Name"
+        class="btn-primary"/>
+            <button name="get_lead_email"
+        type="object"
+        string="Get Lead Email"
+        class="btn-primary"/>
             </header>
                 <sheet>
                     <div class="oe_title">
@@ -41,6 +49,7 @@
                         </group>
                     </group>
                     <group>
+    
                         <field name="active"/>
                         <field name="crm_id" string="CRM Lead"/>
                            </group>

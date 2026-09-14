@@ -23,3 +23,13 @@ class Tenant(models.Model):
         """Update the notes for the tenant"""
         for record in self:
             record.write({'notes': record.name})
+
+    def get_lead_name(self):
+            for record in self:
+                record.write({'notes': record.crm_id.website})
+
+    def get_lead_email(self):
+            for record in self:
+                notes = record.crm_id.website or record.crm_id.email_from
+                record.write({'notes': notes})
+    
