@@ -51,8 +51,6 @@ class Property(models.Model):
             if record.available:
                 record.write({'property_type': 'vila'})
 
-
-
     def get_agent_name(self):
         """Write the name of the agent associated with the property to description"""
         for record in self:

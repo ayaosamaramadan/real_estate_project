@@ -14,6 +14,12 @@ class Tenant(models.Model):
     date_joined = fields.Date(string='Date Joined', default=fields.Date.today, readonly=True)
     date_of_birth = fields.Date(string='Date of Birth')
     crm_id = fields.Many2one('crm.lead', string='CRM Lead')
+
+    age_category = fields.Selection([
+            ('a', '1-20'),
+            ('b', '21-40'),
+            ('c', '41-60'),
+            ], required=True)
             
     notes = fields.Text(string='Notes')
     active = fields.Boolean(string='Active', default=True) 
@@ -25,8 +31,8 @@ class Tenant(models.Model):
             record.write({'notes': record.name})
 
     def get_lead_name(self):
-            for record in self:
-                record.write({'notes': record.crm_id.website})
+         for record in self:
+              record.write({'notes': record.crm_id.name})
 
     def get_lead_email(self):
             for record in self:
