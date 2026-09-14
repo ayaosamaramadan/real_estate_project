@@ -31,6 +31,31 @@ class Property(models.Model):
             record.write({'available': True})
 
     def update_description(self):
-        """Update the description of the property"""
+        """Update the description for the property"""
         for record in self:
-            record.description = f"Updated description for {record.name}"
+            record.write({'description': 'This is a beautiful property.'})
+            
+    def update_deposit(self):
+        """Update the deposit amount for the property"""
+        for record in self:
+            record.write({'deposite': record.deposite + 1000})
+
+    def add_bedroom(self):
+        """Add a bedroom to the property"""
+        for record in self:
+            record.write({'bedrooms': record.bedrooms + 1})
+
+    def prop_vila(self):
+        """Change property type to 'vila' if available"""
+        for record in self:
+            if record.available:
+                record.write({'property_type': 'vila'})
+
+
+
+    def get_agent_name(self):
+        """Write the name of the agent associated with the property to description"""
+        for record in self:
+            if record.agent_id:
+                record.write({'description': record.agent_id.name})
+           

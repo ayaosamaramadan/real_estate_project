@@ -13,7 +13,13 @@ class Tenant(models.Model):
     city = fields.Char(string='City')
     date_joined = fields.Date(string='Date Joined', default=fields.Date.today, readonly=True)
     date_of_birth = fields.Date(string='Date of Birth')
+    crm_id = fields.Many2one('crm.lead', string='CRM Lead')
+            
     notes = fields.Text(string='Notes')
     active = fields.Boolean(string='Active', default=True) 
     
- 
+    
+    def update_notes(self):
+        """Update the notes for the tenant"""
+        for record in self:
+            record.write({'notes': record.name})
