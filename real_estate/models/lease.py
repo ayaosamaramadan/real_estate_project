@@ -1,5 +1,4 @@
 from odoo import models, fields, api
-
 class Lease(models.Model):
     _name = 'real_estate.lease'
     _description = 'Property Lease Agreement'
@@ -9,7 +8,7 @@ class Lease(models.Model):
         'real_estate.property',
         string='Property',
         required=True,
-        ondelete='cascade',  # If property deleted, delete lease too
+        ondelete='cascade', 
         index=True
     )
     tenant_id = fields.Many2one(
@@ -23,3 +22,18 @@ class Lease(models.Model):
     end_date = fields.Date(string='End Date', required=True)
     monthly_rent = fields.Float(string='Monthly Rent', required=True)
     deposit_paid = fields.Float(string='Deposit Paid')
+
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('active', 'Active'),
+        ('at_risk', 'At Risk'),
+        ('expired', 'Expired'),
+        ('cancelled', 'Cancelled'),
+    ], string='Status', default='draft', required=True)
+
+    def update_to_active(self):
+        self.write({'state': 'active'})
+
+    def update_to_draft(self):
+        self.write({'state': 'draft'})
+
