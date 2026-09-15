@@ -1,6 +1,7 @@
 from odoo import models, fields, api
  
 class Property(models.Model):
+    # variables
     _name = 'real_estate.property'
     _description = 'Real Estate Property'
     name = fields.Char(string='Property Name', required=True, index=True)
@@ -56,17 +57,7 @@ class Property(models.Model):
             if record.agent_id:
                 record.write({'description': record.agent_id.name})
     
-    # def write(self, vals):        
-    #        if 'active' in vals and vals['active'] == True:
-    #        print("name:", vals.get('name'))
-    #        vals['description'] = vals.get('name')
-    #        if vals.get('expected_revenue') > 5000:
-    #            vals['description'] = f"Expected Revenue: {vals['expected_revenue']}"
-    #        else:
-    #            raise UserError("Expected Revenue must be greater than 5000")
-    #        vals['description'] = self.name
-    #        return super(CrmLead, self).write(vals)
-    
+    # on create if available ? edit bedrooms : error
     def create(self, vals):
         """Override the create method to set default values"""
         if 'available' not in vals:

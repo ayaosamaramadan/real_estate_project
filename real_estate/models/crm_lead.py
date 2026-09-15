@@ -15,7 +15,8 @@ class CrmLead(models.Model):
         """Update the description for the lead"""
         for record in self:
             record.write({'description': record.name})
-            
+        
+    # on save, if the expected revenue is less than 5000, raise an error
     def write(self, vals):        
               if 'active' in vals and vals['active'] == True:
                   print("name:", vals.get('name'))
