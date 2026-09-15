@@ -1,7 +1,7 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-<!--
+    <!--
     <record model="ir.ui.view" id="real_estate.list">
       <field name="name">real_estate list</field>
       <field name="model">real_estate.real_estate</field>
@@ -16,7 +16,7 @@
 -->
 
     <!-- actions opening views on models -->
-<!--
+    <!--
     <record model="ir.actions.act_window" id="real_estate.action_window">
       <field name="name">real_estate window</field>
       <field name="res_model">real_estate.real_estate</field>
@@ -25,7 +25,7 @@
 -->
 
     <!-- server action to the one above -->
-<!--
+    <!--
     <record model="ir.actions.server" id="real_estate.action_server">
       <field name="name">real_estate server</field>
       <field name="model_id" ref="model_real_estate_real_estate"/>
@@ -41,16 +41,16 @@
 -->
 
     <!-- Top menu item -->
-<!--
+    <!--
     <menuitem name="real_estate" id="real_estate.menu_root"/>
 -->
     <!-- menu categories -->
-<!--
+    <!--
     <menuitem name="Menu 1" id="real_estate.menu_1" parent="real_estate.menu_root"/>
     <menuitem name="Menu 2" id="real_estate.menu_2" parent="real_estate.menu_root"/>
 -->
     <!-- actions -->
-<!--
+    <!--
     <menuitem name="List" id="real_estate.menu_1_list" parent="real_estate.menu_1"
               action="real_estate.action_window"/>
     <menuitem name="Server to list" id="real_estate" parent="real_estate.menu_2"

@@ -36,4 +36,15 @@ class Lease(models.Model):
 
     def update_to_draft(self):
         self.write({'state': 'draft'})
-
+        
+        
+        
+    @api.model
+    def create(self, vals):
+        """Override create to generate lease reference"""
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = (
+                self.env['ir.sequence'].next_by_code('real_estate.lease')
+                or 'New'
+            )
+        return super(Lease, self).create(vals)

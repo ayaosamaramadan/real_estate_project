@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-
+ 
 class Property(models.Model):
     _name = 'real_estate.property'
     _description = 'Real Estate Property'
@@ -18,7 +18,6 @@ class Property(models.Model):
             ('shop', 'Shop'),
             ('land', 'Land')
         ], required=True)
-
 
     def mark_as_occupied(self):
         """Mark property as no longer available"""
@@ -56,4 +55,22 @@ class Property(models.Model):
         for record in self:
             if record.agent_id:
                 record.write({'description': record.agent_id.name})
-           
+    
+    # def write(self, vals):        
+    #        if 'active' in vals and vals['active'] == True:
+    #        print("name:", vals.get('name'))
+    #        vals['description'] = vals.get('name')
+    #        if vals.get('expected_revenue') > 5000:
+    #            vals['description'] = f"Expected Revenue: {vals['expected_revenue']}"
+    #        else:
+    #            raise UserError("Expected Revenue must be greater than 5000")
+    #        vals['description'] = self.name
+    #        return super(CrmLead, self).write(vals)
+    
+    def create(self, vals):
+        """Override the create method to set default values"""
+        if 'available' not in vals:
+            vals['available'] = True
+        if 'bedrooms' not in vals:
+            vals['bedrooms'] = 1
+        return super(Property, self).create(vals)
