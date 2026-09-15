@@ -26,7 +26,7 @@ Long description of module's purpose
         'views/views.xml',
         'views/templates.xml',
         'views/property_views.xml',
-        'views/tenant.xml',
+        'views/tenant_views.xml',
         'views/lease_views.xml',
         'views/menu.xml',
     ],

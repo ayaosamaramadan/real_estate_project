@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo> 
+<odoo>
 
     <!-- Action View -->
     <record id="action_tenant" model="ir.actions.act_window">
@@ -19,38 +19,41 @@
         <field name="model">real_estate.tenant</field>
         <field name="arch" type="xml">
             <form string="Tenant">
-            <header>
-            <button name="update_notes" type="object" string="Update Notes" class="btn-primary"/>
-            <button name="get_lead_name" type="object" string="Get Lead Name" class="btn-primary"/>
-            <button name="get_lead_email" type="object" string="Get Lead Email" class="btn-primary"/>
-            </header>
+                <header>
+                    <button name="update_notes" type="object" string="Update Notes"
+                        class="btn-primary" />
+                    <button name="get_lead_name" type="object" string="Get Lead Name"
+                        class="btn-primary" />
+                    <button name="get_lead_email" type="object" string="Get Lead Email"
+                        class="btn-primary" />
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>
-                            <field name="name" placeholder="Tenant Name"/>
+                            <field name="name" placeholder="Tenant Name" />
                         </h1>
                     </div>
                     <group string="Contact Details">
                         <group>
-                            <field name="email"/>
-                            <field name="phone"/>
-                            <field name="mobile"/> 
+                            <field name="email" />
+                            <field name="phone" />
+                            <field name="mobile" />
                         </group>
                         <group>
-                            <field name="city"/>
-                            <field name="date_of_birth"/>
-                            <field name="age_category"/>
-                            <field name="date_joined"/>
+                            <field name="city" />
+                            <field name="date_of_birth" />
+                            <field name="age_category" />
+                            <field name="date_joined" />
                         </group>
                     </group>
                     <group>
-    
-                        <field name="active"/>
-                        <field name="crm_id" string="CRM Lead"/>
-                           </group>
+
+                        <field name="active" />
+                        <field name="crm_id" string="CRM Lead" />
+                    </group>
                     <notebook>
                         <page string="Notes">
-                            <field name="notes" placeholder="Add notes about this tenant..."/>
+                            <field name="notes" placeholder="Add notes about this tenant..." />
                         </page>
                     </notebook>
                 </sheet>
@@ -64,13 +67,13 @@
         <field name="model">real_estate.tenant</field>
         <field name="arch" type="xml">
             <tree string="Tenants">
-                <field name="name"/>   
-                <field name="email"/>
-                <field name="phone"/>
-                <field name="mobile"/>
-                <field name="city"/>
-                <field name="date_joined"/>
-                <field name="active"/>
+                <field name="name" />
+                <field name="email" />
+                <field name="phone" />
+                <field name="mobile" />
+                <field name="city" />
+                <field name="date_joined" />
+                <field name="active" />
             </tree>
         </field>
     </record>
@@ -81,21 +84,20 @@
         <field name="model">real_estate.tenant</field>
         <field name="arch" type="xml">
             <kanban>
-                <field name="name"/>
-                <field name="email"/>
-                <field name="date_joined"/>
+                <field name="name" />
+                <field name="email" />
+                <field name="date_joined" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
                             <div class="oe_kanban_details">
                                 <strong class="o_kanban_record_title">
-                                    <field name="name"/>
+                                    <field name="name" />
                                 </strong>
                                 <div class="mb-1">
-                                    <field name="email" widget="email"/>
+                                    <field name="email" widget="email" />
                                 </div>
-                                <div class="text-muted mt-1">
-                                    Joined: <field name="date_joined"/>
+                                <div class="text-muted mt-1"> Joined: <field name="date_joined" />
                                 </div>
                             </div>
                         </div>
@@ -105,26 +107,28 @@
         </field>
     </record>
 
-   <!-- Tenant Search View -->
+    <!-- Tenant Search View -->
     <record id="view_tenant_search" model="ir.ui.view">
         <field name="name">real_estate.tenant.search</field>
         <field name="model">real_estate.tenant</field>
         <field name="arch" type="xml">
             <search string="Search Tenants">
-                <field name="name"/>
-                <field name="email"/>
-                <field name="phone"/>
-                <field name="age_category"/>
-                <separator/>
-                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
-                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
-                  <separator/>
+                <field name="name" />
+                <field name="email" />
+                <field name="phone" />
+                <field name="age_category" />
+                <separator />
+                <filter string="Active" name="active" domain="[('active', '=', True)]" />
+                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]" />
+                <separator />
                 <group expand="0" string="Group By">
-                    <filter string="Type" name="group_by_age_category" context="{'group_by': 'age_category'}"/>
-                    <filter string="age_category" name="group_by_city" context="{'group_by': 'city'}"/>
+                    <filter string="Type" name="group_by_age_category"
+                        context="{'group_by': 'age_category'}" />
+                    <filter string="age_category" name="group_by_city"
+                        context="{'group_by': 'city'}" />
                 </group>
             </search>
-            
+
         </field>
     </record>
 
