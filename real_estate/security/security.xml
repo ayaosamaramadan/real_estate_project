@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <!-- Groups -->
     <record id="group_agent" model="res.groups">
         <field name="name">Real Estate Agent</field>
     </record>
@@ -16,6 +18,8 @@
     <record id="group_tenant_manager" model="res.groups">
         <field name="name">Tenant Manager</field>
     </record>
+
+    <!-- settings > technical > security > record rules -->
 
     <record id="property_agent_rule" model="ir.rule">
         <field name="name">Agent: Own Properties Only</field>
