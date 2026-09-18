@@ -10,6 +10,7 @@
           name="Properties"
           parent="menu_real_estate_root"
           action="action_property"
+          groups="real_estate.group_agent"
           sequence="10" />
 
      <!-- Tenants Menu -->
@@ -17,6 +18,7 @@
           name="Tenants"
           parent="menu_real_estate_root"
           action="action_tenant"
+          groups="real_estate.group_tenant,real_estate.group_tenant_manager"
           sequence="20" />
 
      <!-- Leases Menu -->

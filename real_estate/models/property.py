@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import AccessError
  
 class Property(models.Model):
     # variables
@@ -10,6 +11,7 @@ class Property(models.Model):
     bedrooms = fields.Integer(string='Bedrooms', required=True)
     available = fields.Boolean(string='Available', default=True, index=True)    
     agent_id = fields.Many2one('res.users', string='sales person')
+    lease_ids = fields.One2many('real_estate.lease', 'property_id', string='Leases')
     deposite = fields.Float(string='Deposite', required=True)
    
     property_type = fields.Selection([
@@ -60,8 +62,17 @@ class Property(models.Model):
     # on create if available ? edit bedrooms : error
     def create(self, vals):
         """Override the create method to set default values"""
+        if not self.env.user.has_group('real_estate.group_property_manager'):
+            vals['agent_id'] = self.env.user.id
         if 'available' not in vals:
             vals['available'] = True
         if 'bedrooms' not in vals:
             vals['bedrooms'] = 1
         return super(Property, self).create(vals)
+
+    def write(self, vals):
+        if not self.env.user.has_group('real_estate.group_property_manager'):
+            if any(record.agent_id and record.agent_id != self.env.user for record in self):
+                raise AccessError('You can only modify your own properties.')
+            vals['agent_id'] = self.env.user.id
+        return super(Property, self).write(vals)
