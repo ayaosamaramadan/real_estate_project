@@ -47,7 +47,7 @@
                         type="object" class="btn-primary" />
                     <button name="update_to_draft" string="Make Draft" invisible="state != 'active'"
                         type="object" class="btn-warning" />
-
+   <button name="%(real_estate.action_maintenance_request_wizard)d" string="Maintenance Request" type="action" context="{'default_lease_id': active_id}" invisible="state != 'active'"/>
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -65,6 +65,7 @@
                         <field name="deposit_paid" />
                     </group>
                 </sheet>
+             
             </form>
         </field>
     </record>

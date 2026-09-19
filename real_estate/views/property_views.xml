@@ -49,7 +49,11 @@
 
                     <button name="get_agent_name" string="Agent Name" type="object"
                         class="oe_highlight" />
-
+                    <button type="action"
+                        name="%(action_real_estate_lease_wizard)d"
+                        string="Create Lease"
+                        context="{'default_property_id': active_id}"
+                        class="oe_highlight"/>
 
                 </header>
 

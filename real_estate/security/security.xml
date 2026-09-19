@@ -19,6 +19,11 @@
         <field name="name">Tenant Manager</field>
     </record>
 
+    <record id="group_lease_manager" model="res.groups">
+        <field name="name">Lease Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_agent'))]"/>
+    </record>
+
     <!-- settings > technical > security > record rules -->
 
     <record id="property_agent_rule" model="ir.rule">
