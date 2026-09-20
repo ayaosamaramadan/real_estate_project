@@ -13,7 +13,8 @@ class Property(models.Model):
     agent_id = fields.Many2one('res.users', string='sales person')
     lease_ids = fields.One2many('real_estate.lease', 'property_id', string='Leases')
     deposite = fields.Float(string='Deposite', required=True)
-    
+    lease_count = fields.Integer(string='Leases', compute='_compute_lease_count')
+    main_count = fields.Integer(string='Maintenance Requests', compute='_compute_main_count')
     property_type = fields.Selection([
             ('vila', 'Villa'),
             ('apartment', 'Apartment'),
@@ -31,7 +32,7 @@ class Property(models.Model):
         """Mark property as available"""
         for record in self:
             record.write({'available': True})
-
+            
     def update_description(self):
         """Update the description for the property"""
         for record in self:
@@ -84,14 +85,22 @@ class Property(models.Model):
         )
         action['domain'] = [('property_id', '=', self.id)]
         return action
-
-    def view_maintenance_requests(self):
+    
+   
+    def view_main_requests(self):
         self.ensure_one()
-
         action = self.env['ir.actions.act_window']._for_xml_id(
             'real_estate.action_maintenance_request'
         )
-        action['domain'] = [('lease_id', '=', self.id)]
-        action['context'] = {'default_lease_id': self.id}
-
+        action['domain'] = [('property_id', '=', self.id)]
         return action
+
+    @api.depends('lease_ids')
+    def _compute_lease_count(self):
+        for record in self:
+            record.lease_count = len(record.lease_ids)
+
+    @api.depends('lease_ids.main_ids')
+    def _compute_main_count(self):
+        for record in self:
+            record.main_count = len(record.lease_ids.mapped('main_ids'))

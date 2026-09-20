@@ -64,13 +64,21 @@
                             name="view_leases"
                             string="Leases"
                             type="object"
-                            icon="fa-file-text-o" />
+                            icon="fa-file-text-o">
+                            <field name="lease_count"
+                                widget="statinfo"
+                                string="Leases" />
+                        </button>
 
-                        <button
-                            name="view_maintenance_requests"
-                            string="Maintenance Request"
+                        <button name="view_main_requests"
+                            string="Maintenance"
                             type="object"
-                            icon="fa-wrench" />
+                            icon="fa-wrench">
+                            <field name="main_count"
+                                widget="statinfo"
+                                string="Maintenance" />
+                        </button>
+
 
                     </div>
                     <div class="oe_title">
