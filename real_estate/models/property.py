@@ -76,3 +76,22 @@ class Property(models.Model):
                 raise AccessError('You can only modify your own properties.')
             vals['agent_id'] = self.env.user.id
         return super(Property, self).write(vals)
+
+    def view_leases(self):
+        self.ensure_one()
+        action = self.env['ir.actions.act_window']._for_xml_id(
+            'real_estate.action_lease'
+        )
+        action['domain'] = [('property_id', '=', self.id)]
+        return action
+
+    def view_maintenance_requests(self):
+        self.ensure_one()
+
+        action = self.env['ir.actions.act_window']._for_xml_id(
+            'real_estate.action_maintenance_request'
+        )
+        action['domain'] = [('lease_id', '=', self.id)]
+        action['context'] = {'default_lease_id': self.id}
+
+        return action

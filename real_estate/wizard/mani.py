@@ -31,7 +31,7 @@ class MaintenanceRequestWizard(models.TransientModel):
         self.ensure_one()
 
         # 1. Create maintenance.request record using only valid fields
-        maintenance_request = self.env['maintenance.request'].create({
+        maintenance_request = self.env['maintenance.request'].sudo().create({
             'lease_id': self.lease_id.id,
             'issue_type': self.issue_type,
             'description': self.description,

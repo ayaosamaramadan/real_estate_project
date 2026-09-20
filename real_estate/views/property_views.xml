@@ -49,16 +49,30 @@
 
                     <button name="get_agent_name" string="Agent Name" type="object"
                         class="oe_highlight" />
+
                     <button type="action"
                         name="%(action_real_estate_lease_wizard)d"
                         string="Create Lease"
                         context="{'default_property_id': active_id}"
-                        class="oe_highlight"/>
-
+                        class="oe_highlight" />
                 </header>
 
 
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="view_leases"
+                            string="Leases"
+                            type="object"
+                            icon="fa-file-text-o" />
+
+                        <button
+                            name="view_maintenance_requests"
+                            string="Maintenance Request"
+                            type="object"
+                            icon="fa-wrench" />
+
+                    </div>
                     <div class="oe_title">
                         <h1>
                             <field name="name" placeholder="Property Name" />
@@ -91,16 +105,16 @@
                             <field name="description"
                                 placeholder="Add description about this property..." />
                         </page>
-                         <page string="Leases">
+                        <page string="Leases">
                             <field name="lease_ids">
                                 <tree create="false">
-                                    <field name="name"/>
-                                    <field name="tenant_id"/>
-                                    <field name="start_date"/>
-                                    <field name="end_date"/>
-                                    
+                                    <field name="name" />
+                                    <field name="tenant_id" />
+                                    <field name="start_date" />
+                                    <field name="end_date" />
+
                                 </tree>
-                            </field>                                
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
@@ -177,5 +191,6 @@
             </search>
         </field>
     </record>
+
 
 </odoo>
