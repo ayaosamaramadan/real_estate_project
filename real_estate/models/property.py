@@ -13,7 +13,7 @@ class Property(models.Model):
     agent_id = fields.Many2one('res.users', string='sales person')
     lease_ids = fields.One2many('real_estate.lease', 'property_id', string='Leases')
     deposite = fields.Float(string='Deposite', required=True)
-   
+    
     property_type = fields.Selection([
             ('vila', 'Villa'),
             ('apartment', 'Apartment'),

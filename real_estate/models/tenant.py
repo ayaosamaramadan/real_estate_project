@@ -24,6 +24,8 @@ class Tenant(models.Model):
             
     notes = fields.Text(string='Notes')
     active = fields.Boolean(string='Active', default=True) 
+    lease_ids = fields.One2many('real_estate.lease', 'tenant_id', string='Leases')
+       
     
     
     def update_notes(self):

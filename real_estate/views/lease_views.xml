@@ -47,10 +47,22 @@
                         type="object" class="btn-primary" />
                     <button name="update_to_draft" string="Make Draft" invisible="state != 'active'"
                         type="object" class="btn-warning" />
-   <button name="%(real_estate.action_maintenance_request_wizard)d" string="Maintenance Request" type="action" context="{'default_lease_id': active_id}" invisible="state != 'active'"/>
+                    <button name="%(real_estate.action_maintenance_request_wizard)d"
+                        string="Maintenance Request" type="action"
+                        context="{'default_lease_id': active_id}" invisible="state != 'active'" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+    <button name="action_view_maintenance_requests"
+            type="object"
+            class="oe_stat_button"
+            icon="fa-wrench">
+        <field name="main_ids"
+               widget="statinfo"
+               string="Maintenance"/>
+    </button>
+</div>
                     <div class="oe_title">
                         <h1>
                             <field name="name" />
@@ -65,7 +77,24 @@
                         <field name="deposit_paid" />
                     </group>
                 </sheet>
-             
+                <notebook>
+
+                    <page string="main req">
+                        <field name="main_ids">
+                            <tree create="true">
+                                <field name="name" />
+                                <field name="lease_id" />
+                                <field name="tenant_id" />
+                                <field name="property_id" />
+                                <field name="issue_type" />
+                                <field name="assigned_to" />
+                                <field name="scheduled_date" />
+                            </tree>
+                        </field>
+                    </page>
+
+                </notebook>
+
             </form>
         </field>
     </record>

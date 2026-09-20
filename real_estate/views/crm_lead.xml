@@ -6,8 +6,12 @@
         <field name="inherit_id" ref="crm.crm_lead_view_form" />
         <field name="arch" type="xml">
             <header>
-                <button name="update_description" type="object" string="Open Property"
+                <button name="%(action_property)d" type="action" 
+                context="{'default_lead_id': active_id , 'default_name': name}"
+                string="Open Property"
                     class="btn-primary" />
+                <button name="action_open_create_tenant_wizard" type="object"
+                    string="Create Tenant" class="btn-primary" />
             </header>
             <xpath expr="//field[@name='user_id']" position="before">
                 <field name="property_type" />

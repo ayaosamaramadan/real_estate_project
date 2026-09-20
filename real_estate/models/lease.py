@@ -37,7 +37,14 @@ class Lease(models.Model):
     end_date = fields.Date(string='End Date', required=True)
     monthly_rent = fields.Float(string='Monthly Rent', required=True)
     deposit_paid = fields.Float(string='Deposit Paid')
-        
+    main_ids = fields.One2many(
+        'maintenance.request',
+        'lease_id',
+        string='Maintenance Requests'
+    )
+        # lease_ids = fields.One2many('real_estate.lease', 'property_id', string='Leases')
+      
+           
     # make on create to generate lease reference with sequence number
     @api.model
     def create(self, vals):

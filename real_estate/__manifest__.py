@@ -27,6 +27,7 @@ Long description of module's purpose
         'data/ir_sequence_data.xml',
         'wizard/mani.xml',
         'wizard/lease_wizard.xml',
+        'wizard/tenant_wizard.xml',
         'views/views.xml',
         'views/templates.xml',
         'views/property_views.xml',
