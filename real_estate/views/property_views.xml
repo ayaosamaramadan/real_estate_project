@@ -64,6 +64,7 @@
                             name="view_leases"
                             string="Leases"
                             type="object"
+                            class="oe_stat_button"
                             icon="fa-file-text-o">
                             <field name="lease_count"
                                 widget="statinfo"
@@ -73,6 +74,7 @@
                         <button name="view_main_requests"
                             string="Maintenance"
                             type="object"
+                            class="oe_stat_button"
                             icon="fa-wrench">
                             <field name="main_count"
                                 widget="statinfo"

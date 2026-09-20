@@ -52,9 +52,9 @@
     </record>
 
     <record id="maintenance_rule" model="ir.rule">
-        <field name="name">Maintenance: All Properties</field>
+        <field name="name">Maintenance: All Requests</field>
         <field name="model_id" ref="model_maintenance_request"/>
-        <field name="domain_force">[('assigned_to', '=', user.id)]</field>
+        <field name="domain_force">[]</field>
         <field name="groups" eval="[(4, ref('group_maintenance'))]"/>
     </record>
 

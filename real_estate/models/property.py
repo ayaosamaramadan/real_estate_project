@@ -13,8 +13,16 @@ class Property(models.Model):
     agent_id = fields.Many2one('res.users', string='sales person')
     lease_ids = fields.One2many('real_estate.lease', 'property_id', string='Leases')
     deposite = fields.Float(string='Deposite', required=True)
-    lease_count = fields.Integer(string='Leases', compute='_compute_lease_count')
-    main_count = fields.Integer(string='Maintenance Requests', compute='_compute_main_count')
+    lease_count = fields.Integer(
+        string='Leases',
+        compute='_compute_lease_count',
+        store=True,
+    )
+    main_count = fields.Integer(
+        string='Maintenance Requests',
+        compute='_compute_main_count',
+        store=True,
+    )
     property_type = fields.Selection([
             ('vila', 'Villa'),
             ('apartment', 'Apartment'),
