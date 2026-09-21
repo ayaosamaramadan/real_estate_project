@@ -25,6 +25,7 @@ class MaintenanceRequestWizard(models.TransientModel):
     
     preferred_date = fields.Date()
     tenant_phone = fields.Char()
+    actual_cost = fields.Float(string='Actual Cost')
     
     def action_submit_request(self):
         """Create maintenance request and notify manager"""
@@ -37,6 +38,7 @@ class MaintenanceRequestWizard(models.TransientModel):
             'description': self.description,
             'urgency': self.urgency,
             'scheduled_date': self.preferred_date,
+            'actual_cost': self.actual_cost,
         })
         
         # 2. Send notification to property manager (Agent)

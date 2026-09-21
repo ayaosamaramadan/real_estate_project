@@ -50,6 +50,8 @@
                     <button name="%(real_estate.action_maintenance_request_wizard)d"
                         string="Maintenance Request" type="action"
                         context="{'default_lease_id': active_id}" invisible="state != 'active'" />
+                        
+                        <button name="create_maintenance_request" string="Create Maintenance Request" type="object" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -60,6 +62,8 @@
                         </h1>
                     </div>
                     <group>
+                        <field name="total_actual_cost" />
+                        <field name="next_elec_recharge" />
                          <field name="duration_month" />
                          <field name="comp_is_active" />
                           <field name="tenant_id" />

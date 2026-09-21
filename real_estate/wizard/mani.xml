@@ -20,6 +20,7 @@
                 <group>
                     <group>
                         <field name="preferred_date"/>
+                           <field name='actual_cost'/>
                     </group>
                     <group>
                         <field name="tenant_phone"/>
@@ -75,7 +76,3 @@
 
 
 </odoo>
-
-
-
-

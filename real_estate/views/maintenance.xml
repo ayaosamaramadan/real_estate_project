@@ -11,6 +11,7 @@
                 <field name="property_id"/>
                 <field name="issue_type"/>
                 <field name="urgency"/>
+                <field name='actual_cost'/>
                 <field name="assigned_to"/>
                 <field name="scheduled_date"/>
             </tree>
