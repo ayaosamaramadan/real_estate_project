@@ -45,7 +45,7 @@ class Lease(models.Model):
     
     duration_month = fields.Integer(string='Duration (Months)', compute='_compute_duration' ,store=True)
     
-    comp_is_active = fields.Boolean(string='Is Active', compute='_compute_is_active', store=True)
+    comp_is_active = fields.Boolean(string='Is Active', compute='_compute_is_active', store=False)
       
            
     # make on create to generate lease reference with sequence number

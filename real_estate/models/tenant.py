@@ -25,6 +25,8 @@ class Tenant(models.Model):
     notes = fields.Text(string='Notes')
     active = fields.Boolean(string='Active', default=True) 
     lease_ids = fields.One2many('real_estate.lease', 'tenant_id', string='Leases')
+    
+    age_tenant = fields.Integer(string='Age', compute='_compute_age', store=True)
        
     
     
@@ -42,3 +44,12 @@ class Tenant(models.Model):
                 notes = record.crm_id.website or record.crm_id.email_from
                 record.write({'notes': notes})
     
+    @api.depends('date_of_birth')
+    def _compute_age(self):
+        for record in self:
+            if record.date_of_birth:
+                today = fields.Date.today()
+                age = today.year - record.date_of_birth.year - ((today.month, today.day) < (record.date_of_birth.month, record.date_of_birth.day))
+                record.age_tenant = age
+            else:
+                record.age_tenant = 0
