@@ -42,7 +42,10 @@ class Lease(models.Model):
         'lease_id',
         string='Maintenance Requests'
     )
-        # lease_ids = fields.One2many('real_estate.lease', 'property_id', string='Leases')
+    
+    duration_month = fields.Integer(string='Duration (Months)', compute='_compute_duration' ,store=True)
+    
+    comp_is_active = fields.Boolean(string='Is Active', compute='_compute_is_active', store=True)
       
            
     # make on create to generate lease reference with sequence number
@@ -70,3 +73,21 @@ class Lease(models.Model):
 
     def update_to_draft(self):
         self.write({'state': 'draft'})
+        
+    @api.depends('start_date', 'end_date')
+    def _compute_duration(self):
+        for record in self:
+            if record.start_date and record.end_date:
+                delta = record.end_date - record.start_date
+                record.duration_month = delta.days // 30
+            else:
+                record.duration_month = 0
+                
+    @api.depends('start_date', 'end_date' , 'state')
+    def _compute_is_active(self):
+        today = fields.Date.today()
+        for record in self:
+            if record.state == 'active' and record.start_date and record.end_date:
+                record.comp_is_active = record.start_date <= today <= record.end_date
+            else:
+                record.comp_is_active = False

@@ -60,12 +60,15 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="tenant_id" />
+                         <field name="duration_month" />
+                         <field name="comp_is_active" />
+                          <field name="tenant_id" />
                         <field name="property_id" />
                         <field name="start_date" />
                         <field name="end_date" />
                         <field name="monthly_rent" />
                         <field name="deposit_paid" />
+                      
                     </group>
                 </sheet>
                 <notebook>
@@ -74,6 +77,7 @@
                         <field name="main_ids">
                             <tree create="true">
                                 <field name="name" />
+                               
                                 <field name="lease_id" />
                                 <field name="tenant_id" />
                                 <field name="property_id" />
