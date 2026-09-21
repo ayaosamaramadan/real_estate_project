@@ -52,11 +52,14 @@ class Lease(models.Model):
 
     next_elec_recharge = fields.Date(
         string='Next Electricity Recharge', compute='_onchange_start_date', store=False)
-    
+
     total_actual_cost = fields.Float(
         string='Total Actual Cost', compute='_compute_total_actual_cost')
+    # total_cost = fields.Float(compute='_compute_total_cost', string='Total Cost')
+    
+    
+    
     # make on create to generate lease reference with sequence number
-
     @api.model
     def create(self, vals):
         """Override create to generate lease reference"""
@@ -123,7 +126,7 @@ class Lease(models.Model):
             'issue_type': 'other',
             'description': 'Initial maintenance request',
             'scheduled_date': self.next_elec_recharge,
-            'urgency': 'medium'    ,
+            'urgency': 'medium',
         })
         return {
             'type': 'ir.actions.act_window',
@@ -131,10 +134,31 @@ class Lease(models.Model):
             'view_mode': 'tree,form',
             'target': 'current',
         }
-        
-        
+
     @api.depends('main_ids.actual_cost')
     def _compute_total_actual_cost(self):
         for record in self:
-            total_cost = sum(request.actual_cost for request in record.main_ids)
+            total_cost = sum(
+                request.actual_cost for request in record.main_ids)
             record.total_actual_cost = total_cost
+
+    # @api.depends('maintenance_ids.actual_cost')
+    # def _compute_total_cost(self):
+    #     for lease in self:
+    #         # 1
+    #         # lease.total_cost = sum(maintenance.actual_cost for maintenance in lease.maintenance_ids)
+
+    #         # 2
+    #         # lease.total_cost = 0
+    #         # total_cost = 0
+    #         # for maintenance in lease.maintenance_ids:
+    #         #     if maintenance.actual_cost:
+    #         #         total_cost += maintenance.actual_cost
+    #         # lease.total_cost = total_cost
+
+    #         # 3
+    #         lease_maintenance_ids = self.env['maintenance.request'].search([('lease_id', '=', lease.id)])
+    #         lease.total_cost = 0
+    #         for maintenance in lease_maintenance_ids:
+    #             if maintenance.actual_cost:
+    #                 lease.total_cost += maintenance.actual_cost
