@@ -35,6 +35,7 @@ Long description of module's purpose
         'views/lease_views.xml',
         'views/maintenance.xml',
         'views/crm_lead.xml',
+        'views/payment_views.xml',
         'views/menu.xml',
     ],
     # only loaded in demonstration mode

@@ -9,6 +9,18 @@
         <field name="search_view_id" ref="view_lease_search" />
     </record>
 
+       <record id="ir_cron_auto_expire_leases" model="ir.cron">
+        <field name="name">Real Estate: Auto Expire Leases</field>
+        <field name="model_id" ref="model_real_estate_lease" />
+        <field name="state">code</field>
+        <field name="code">model._cron_auto_expire_leases()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False" />
+        <field name="active" eval="True" />
+    </record>
+
     <!-- Lease Search View -->
     <record id="view_lease_search" model="ir.ui.view">
         <field name="name">real_estate.lease.search</field>
@@ -62,26 +74,26 @@
                             <field name="name" />
                         </h1>
                     </div>
-                   <group>
-                     <group>
-                        <field name="next_elec_recharge" />
-                        <field name="duration_month" />
-                        <field name="comp_is_active" />
-                        <field name="tenant_id" />
-                        <field name="property_id" />
-                        <field name="start_date" />
-                        <field name="end_date" />
-                        <field name="monthly_rent" />
-                        <field name="deposit_paid" />
-                    </group>
                     <group>
-                        <field name="total_plumbing_cost" />
-                        <field name="total_electrical_cost" />
-                        <field name="total_air_condition_cost" />
-                        <field name="total_appliance_cost" />
-                        <field name="total_other_cost" />
+                        <group>
+                            <field name="next_elec_recharge" />
+                            <field name="duration_month" />
+                            <field name="comp_is_active" />
+                            <field name="tenant_id" />
+                            <field name="property_id" />
+                            <field name="start_date" />
+                            <field name="end_date" />
+                            <field name="monthly_rent" />
+                            <field name="deposit_paid" />
+                        </group>
+                        <group>
+                            <field name="total_plumbing_cost" />
+                            <field name="total_electrical_cost" />
+                            <field name="total_air_condition_cost" />
+                            <field name="total_appliance_cost" />
+                            <field name="total_other_cost" />
+                        </group>
                     </group>
-                   </group>
                 </sheet>
                 <notebook>
 
@@ -97,6 +109,25 @@
                                 <field name="actual_cost" />
                                 <field name="assigned_to" />
                                 <field name="scheduled_date" />
+                            </tree>
+                        </field>
+                    </page>
+
+
+                    <page string="Payments">
+                        <field name="payment_ids">
+                            <tree create="true">
+                                <field name="name" />
+                                <field name="lease_id" />
+                                <field name="tenant_id" />
+                                <field name="property_id" />
+                                <field name="due_date" />
+                                <field name="amount" />
+                                <field name="late_fee" />
+                                <field name="total_amount" />
+                                <field name="payment_date" />
+                                <field name="payment_method" />
+                                <field name="state" />
                             </tree>
                         </field>
                     </page>
@@ -123,5 +154,7 @@
             </tree>
         </field>
     </record>
+
+ 
 
 </odoo>

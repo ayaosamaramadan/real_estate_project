@@ -43,6 +43,11 @@ class Lease(models.Model):
         'lease_id',
         string='Maintenance Requests'
     )
+    payment_ids = fields.One2many(
+        'lease.payment',
+        'lease_id',
+        string='Payments'
+    )
 
     duration_month = fields.Integer(
         string='Duration (Months)', compute='_compute_duration', store=True)
@@ -157,3 +162,12 @@ class Lease(models.Model):
             record.total_air_condition_cost = costs['air_condition']
             record.total_appliance_cost = costs['appliance']
             record.total_other_cost = costs['other']
+
+    def _cron_auto_expire_leases(self):
+        """Scheduled action - expire leases whose end date has passed"""
+        today = fields.Date.today()
+        expired_leases = self.search([
+            ('end_date', '<', today),
+        ])
+        for lease in expired_leases:
+            lease.write({'state': 'expired'})

@@ -11,3 +11,5 @@ from . import lease
 from . import maintenance_request
 
 from . import crm_lead
+
+from . import payment

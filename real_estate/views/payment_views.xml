@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_payment_views_search" model="ir.ui.view">
+        <field name="name">lease.payment.search</field>
+        <field name="model">lease.payment</field>
+        <field name="arch" type="xml">
+            <search string="Search Lease Payments">
+                <field name="name" />
+                <field name="lease_id" />
+                <field name="tenant_id" />
+                <field name="property_id" />
+                <field name="state" />
+                <field name="due_date" />
+            </search>
+        </field>
+    </record>
+
+    <!-- Lease Payment Action -->
+    <record id="action_lease_payment" model="ir.actions.act_window">
+        <field name="name">Lease Payments</field>
+        <field name="res_model">lease.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_payment_views_search" />
+    </record>
+
+    <!-- Lease Payment Form View -->
+    <record id="view_payment_views_form" model="ir.ui.view">
+        <field name="name">real_estate.lease.payment.form</field>
+        <field name="model">lease.payment</field>
+        <field name="arch" type="xml">
+            <form string="Lease Payment">
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="lease_id" />
+                            <field name="tenant_id" />
+                            <field name="property_id" />
+                            <field name="due_date" />
+                            <field name="amount" />
+                            <field name="late_fee" />
+                            <field name="late_fee_applied" />
+                            <field name="total_amount" />
+                        </group>
+                        <group>
+                            <field name="payment_date" />
+                            <field name="payment_method" />
+                            <field name="notes" />
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Notes">
+                            <field name="notes" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Lease Payment Tree View -->
+    <record id="view_payment_views_tree" model="ir.ui.view">
+        <field name="name">real_estate.lease.payment.tree</field>
+        <field name="model">lease.payment</field>
+        <field name="arch" type="xml">
+            <tree string="Lease Payments">
+                <field name="name" />
+                <field name="lease_id" />
+                <field name="tenant_id" />
+                <field name="property_id" />
+                <field name="due_date" />
+                <field name="amount" />
+                <field name="late_fee" />
+                <field name="total_amount" />
+                <field name="payment_date" />
+                <field name="payment_method" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="ir_cron_auto_mark_payments_as_paid" model="ir.cron">
+        <field name="name">Real Estate: Auto Mark Payments as Paid</field>
+        <field name="model_id" ref="model_lease_payment"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_auto_mark_payments_as_paid()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+
+</odoo>
