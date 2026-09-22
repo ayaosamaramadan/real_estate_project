@@ -9,29 +9,30 @@
             <form string="Maintenance Request">
                 <group>
                     <group>
-                        <field name="lease_id" readonly="1"/>
-                        <field name="property_id"/>
+                        <field name="lease_id" readonly="1" />
+                        <field name="property_id" />
                     </group>
                     <group>
-                        <field name="issue_type"/>
-                        <field name="urgency"/>
+                        <field name="issue_type" />
+                        <field name="urgency" />
                     </group>
                 </group>
                 <group>
                     <group>
-                        <field name="preferred_date"/>
-                           <field name='actual_cost'/>
+                        <field name="actual_cost" />
+
                     </group>
                     <group>
-                        <field name="tenant_phone"/>
+                        <field name="tenant_phone" />
                     </group>
                 </group>
                 <group string="Description of Issue">
-                    <field name="description" placeholder="Describe the issue in detail..."/>
+                    <field name="description" placeholder="Describe the issue in detail..." />
                 </group>
                 <footer>
-                    <button name="action_submit_request" string="Submit Request" type="object" class="oe_highlight"/>
-                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    <button name="action_submit_request" string="Submit Request" type="object"
+                        class="oe_highlight" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
                 </footer>
             </form>
         </field>

@@ -50,8 +50,9 @@
                     <button name="%(real_estate.action_maintenance_request_wizard)d"
                         string="Maintenance Request" type="action"
                         context="{'default_lease_id': active_id}" invisible="state != 'active'" />
-                        
-                        <button name="create_maintenance_request" string="Create Maintenance Request" type="object" />
+
+                    <button name="create_maintenance_request" string="Create Maintenance Request"
+                        type="object" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -61,19 +62,26 @@
                             <field name="name" />
                         </h1>
                     </div>
-                    <group>
-                        <field name="total_actual_cost" />
+                   <group>
+                     <group>
                         <field name="next_elec_recharge" />
-                         <field name="duration_month" />
-                         <field name="comp_is_active" />
-                          <field name="tenant_id" />
+                        <field name="duration_month" />
+                        <field name="comp_is_active" />
+                        <field name="tenant_id" />
                         <field name="property_id" />
                         <field name="start_date" />
                         <field name="end_date" />
                         <field name="monthly_rent" />
                         <field name="deposit_paid" />
-                      
                     </group>
+                    <group>
+                        <field name="total_plumbing_cost" />
+                        <field name="total_electrical_cost" />
+                        <field name="total_air_condition_cost" />
+                        <field name="total_appliance_cost" />
+                        <field name="total_other_cost" />
+                    </group>
+                   </group>
                 </sheet>
                 <notebook>
 
@@ -81,11 +89,12 @@
                         <field name="main_ids">
                             <tree create="true">
                                 <field name="name" />
-                               
+
                                 <field name="lease_id" />
                                 <field name="tenant_id" />
                                 <field name="property_id" />
                                 <field name="issue_type" />
+                                <field name="actual_cost" />
                                 <field name="assigned_to" />
                                 <field name="scheduled_date" />
                             </tree>

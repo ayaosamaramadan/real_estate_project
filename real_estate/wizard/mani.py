@@ -38,7 +38,8 @@ class MaintenanceRequestWizard(models.TransientModel):
             'description': self.description,
             'urgency': self.urgency,
             'scheduled_date': self.preferred_date,
-            'actual_cost': self.actual_cost,
+            'actual_cost': self.actual_cost
+           
         })
         
         # 2. Send notification to property manager (Agent)

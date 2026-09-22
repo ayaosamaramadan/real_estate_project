@@ -35,4 +35,4 @@ class MaintenanceRequest(models.Model):
     assigned_to = fields.Many2one('res.users', string='Assigned To')
     scheduled_date = fields.Date()
     completion_date = fields.Date()
-    actual_cost = fields.Float()
+    actual_cost = fields.Float(string='Actual Cost')
