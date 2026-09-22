@@ -171,3 +171,18 @@ class Lease(models.Model):
         ])
         for lease in expired_leases:
             lease.write({'state': 'expired'})
+            
+     # === VALIDATION ===
+    @api.constrains('start_date', 'end_date')
+    def _check_dates(self):
+        """Ensure end date is after start date"""
+        for record in self:
+            if record.start_date and record.end_date:
+                if record.end_date <= record.start_date:
+                    raise ValidationError("End date must be after start date")
+
+    _sql_constraints = [
+        ('email_unique', 'UNIQUE(email)', 'Email must be unique! This email is already registered.'),
+    ]
+
+

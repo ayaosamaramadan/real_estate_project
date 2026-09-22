@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class Tenant(models.Model):
     _name = 'real_estate.tenant'
@@ -53,3 +54,9 @@ class Tenant(models.Model):
                 record.age_tenant = age
             else:
                 record.age_tenant = 0
+
+    @api.constrains('date_of_birth')
+    def _check_minimum_age(self):
+        for record in self:
+            if record.date_of_birth and record.age_tenant < 20:
+                raise ValidationError('Tenant age must be at least 20 years.')
