@@ -1,10 +1,10 @@
+from datetime import timedelta
 from odoo import models, fields, api
 
 class MaintenanceRequest(models.Model):
     _name = 'maintenance.request'
     _description = 'Property Maintenance Request'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    
     name = fields.Char()
     lease_id = fields.Many2one('real_estate.lease', string='Lease')
     tenant_id = fields.Many2one(
@@ -17,7 +17,6 @@ class MaintenanceRequest(models.Model):
         store=True,
         string='Property',
     )
-    
     issue_type = fields.Selection([
         ('plumbing', 'Plumbing'),
         ('electrical', 'Electrical'),
@@ -36,3 +35,18 @@ class MaintenanceRequest(models.Model):
     scheduled_date = fields.Date()
     completion_date = fields.Date()
     actual_cost = fields.Float(string='Actual Cost')
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        tomorrow = fields.Date.today() + timedelta(days=1)
+
+        for vals in vals_list:
+            if vals.get('urgency') == 'emergency' and not vals.get('scheduled_date'):
+                vals['scheduled_date'] = tomorrow
+
+        return super().create(vals_list)
+
+    @api.onchange('urgency')
+    def _onchange_urgency(self):
+        if self.urgency == 'emergency':
+            self.scheduled_date = fields.Date.today() + timedelta(days=1)
