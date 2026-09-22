@@ -26,5 +26,18 @@
         </field>
     </record>
 
+    <record id="ir_cron_create_tenants_from_leads" model="ir.cron">
+        <field name="name">Real Estate: Create Tenants from Leads</field>
+        <field name="model_id" ref="crm.model_crm_lead"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_create_tenants_from_leads()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=1, minute=0, second=0) + relativedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+
 
 </odoo>
