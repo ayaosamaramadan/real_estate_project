@@ -20,6 +20,9 @@
         <field name="arch" type="xml">
             <form string="Tenant">
                 <header>
+                    <button name="action_create_portal_user" type="object"
+                        string="Create Portal User" class="btn-primary"
+                        invisible="user_id" />
                     <button name="update_notes" type="object" string="Update Notes"
                         class="btn-primary" />
                     <button name="get_lead_name" type="object" string="Get Lead Name"
