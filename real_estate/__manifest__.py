@@ -18,7 +18,7 @@ Long description of module's purpose
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'mail', 'crm' , 'website'],
+    'depends': ['base', 'mail', 'crm', 'portal', 'website'],
 
     # always loaded
     'data': [
@@ -36,6 +36,7 @@ Long description of module's purpose
         'views/maintenance.xml',
         'views/crm_lead.xml',
         'views/payment_views.xml',
+        'views/portal_templates.xml',
         'views/menu.xml',
     ],
     # only loaded in demonstration mode
