@@ -39,7 +39,7 @@
                     <group string="Contact Details">
                         <group>
                             <field name="email" />
-                            <field name="user_id" string="Portal User" />
+                            <field name="user_id" string="Related User" />
                             <field name="phone" />
                             <field name="mobile" />
                         </group>

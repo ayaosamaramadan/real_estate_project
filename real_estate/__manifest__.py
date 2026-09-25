@@ -29,7 +29,7 @@ Long description of module's purpose
         'wizard/lease_wizard.xml',
         'wizard/tenant_wizard.xml',
         'views/views.xml',
-        'views/templates.xml',
+        'views/web_templates.xml',
         'views/property_views.xml',
         'views/tenant_views.xml',
         'views/lease_views.xml',
