@@ -9,6 +9,8 @@ class Property(models.Model):
     description = fields.Text(string='Description')
     price = fields.Float(string='Monthly Rent', required=True)    
     bedrooms = fields.Integer(string='Bedrooms', required=True)
+    area = fields.Float(string='Area (sq ft)')
+    image_1920 = fields.Image(string='Property Image')
     available = fields.Boolean(string='Available', default=True, index=True)    
     agent_id = fields.Many2one('res.users', string='sales person')
     lease_ids = fields.One2many('real_estate.lease', 'property_id', string='Leases')

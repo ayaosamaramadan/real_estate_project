@@ -88,6 +88,7 @@
                             <field name="name" placeholder="Property Name" />
                         </h1>
                     </div>
+                    <field name="image_1920" widget="image" class="oe_avatar" />
                     <group string="Property Details">
                         <group>
                             <field name="available" />
@@ -101,6 +102,7 @@
                     <group>
                         <group>
                             <field name="bedrooms" readonly="0" />
+                            <field name="area" />
                             <field name="agent_id" readonly="0"
                                 groups="real_estate.group_property_manager" />
                         </group>

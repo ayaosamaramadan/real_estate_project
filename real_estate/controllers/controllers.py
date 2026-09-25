@@ -65,3 +65,61 @@ class RealEstatePortal(CustomerPortal):
 			'lease': lease,
 		})
 		return request.render('real_estate.portal_property_details', values)
+
+	@http.route('/properties', type='http', auth='public', website=True)
+	def website_properties(self, property_type=None, min_price=None,
+						   max_price=None, bedrooms=None, **kw):
+		"""Public property catalogue with URL-based filters."""
+		property_model = request.env['real_estate.property'].sudo()
+		property_types = property_model._fields['property_type'].selection
+		valid_property_types = {value for value, _label in property_types}
+		domain = [('available', '=', True)]
+
+		if property_type in valid_property_types:
+			domain.append(('property_type', '=', property_type))
+		else:
+			property_type = False
+
+		try:
+			min_price = float(min_price) if min_price else False
+		except (TypeError, ValueError):
+			min_price = False
+		if min_price is not False:
+			domain.append(('price', '>=', min_price))
+
+		try:
+			max_price = float(max_price) if max_price else False
+		except (TypeError, ValueError):
+			max_price = False
+		if max_price is not False:
+			domain.append(('price', '<=', max_price))
+
+		try:
+			bedrooms = int(bedrooms) if bedrooms else False
+		except (TypeError, ValueError):
+			bedrooms = False
+		if bedrooms is not False:
+			domain.append(('bedrooms', '>=', bedrooms))
+
+		return request.render('real_estate.website_properties', {
+			'properties': property_model.search(domain, order='price asc'),
+			'property_types': property_types,
+			'property_types_map': dict(property_types),
+			'selected_type': property_type,
+			'min_price': min_price,
+			'max_price': max_price,
+			'bedrooms': bedrooms,
+		})
+
+	@http.route('/properties/<int:property_id>', type='http', auth='public', website=True)
+	def website_property_details(self, property_id, **kw):
+		"""Public details page for an available property."""
+		property_record = request.env['real_estate.property'].sudo().browse(property_id)
+		if not property_record.exists() or not property_record.available:
+			raise NotFound()
+		return request.render('real_estate.website_property_details', {
+			'property_record': property_record,
+			'property_types_map': dict(
+				property_record._fields['property_type'].selection,
+			),
+		})
