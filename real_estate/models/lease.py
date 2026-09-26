@@ -69,7 +69,12 @@ class Lease(models.Model):
     total_other_cost = fields.Float(
         string='Total Other Cost', compute='_compute_maintenance_costs')
 
+    next_payment_date = fields.Date(string='Next Payment Date')
+    last_reminder_sent = fields.Date(
+        string='Last Reminder Sent', readonly=False)
+
     # make on create to generate lease reference with sequence number
+
     @api.model
     def create(self, vals):
         """Override create to generate lease reference"""
@@ -171,7 +176,7 @@ class Lease(models.Model):
         ])
         for lease in expired_leases:
             lease.write({'state': 'expired'})
-            
+
      # === VALIDATION ===
     @api.constrains('start_date', 'end_date')
     def _check_dates(self):
@@ -181,8 +186,32 @@ class Lease(models.Model):
                 if record.end_date <= record.start_date:
                     raise ValidationError("End date must be after start date")
 
-    _sql_constraints = [
-        ('email_unique', 'UNIQUE(email)', 'Email must be unique! This email is already registered.'),
-    ]
+    def send_reminder_email(self):
+        self.ensure_one()
 
+        template = self.env.ref(
+            'real_estate.email_template_payment_upcoming',
+            raise_if_not_found=False,
+        )
+        if not template:
+            return False
 
+        if not self.tenant_id.email:
+            self.message_post(body="Could not send reminder: Tenant has no email.")
+            return False
+
+        template.send_mail(self.id, force_send=True)
+        self.last_reminder_sent = fields.Date.today()
+        return True
+
+    @api.model
+    def cron_send_upcoming_payment_reminders(self):
+        today = fields.Date.today()
+        upcoming = today + timedelta(days=1)
+
+        leases = self.search([
+            ('next_payment_date', '=', upcoming),
+        ])
+
+        for lease in leases:
+            lease.send_reminder_email()

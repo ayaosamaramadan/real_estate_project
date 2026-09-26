@@ -13,3 +13,5 @@ from . import maintenance_request
 from . import crm_lead
 
 from . import payment
+
+from . import res_partnar
