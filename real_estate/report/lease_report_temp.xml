@@ -13,6 +13,15 @@
                                 <strong>Tenant:</strong>
                                 <span t-field="o.tenant_id" />
                             </div>
+                            <div>
+                                <strong>
+                                 total actual cost
+                                </strong>
+                                
+                                
+                                <span t-esc="maintenance_costs.get(o.id, 0)"
+                                    t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                            </div>
                             <div class="col-6">
                                 <strong>Status:</strong>
                                 <span t-field="o.state" />

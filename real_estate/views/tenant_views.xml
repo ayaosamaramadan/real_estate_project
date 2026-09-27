@@ -37,7 +37,8 @@
                         </h1>
                     </div>
                     <group string="Contact Details">
-                        <group>
+                      <field name="tenant_type" widget="radio" options="{'horizontal': true}" />
+                              <group>
                             <field name="email" />
                             <field name="user_id" string="Related User" />
                             <field name="phone" />
@@ -45,7 +46,7 @@
                         </group>
                         <group>
                             <field name="city" />
-                            <field name="date_of_birth" />
+                            <field name="date_of_birth" invisible="tenant_type == 'company'" />
                             <field name="age_category" />
                             <field name="date_joined" />
                               <field name="age_tenant"/>

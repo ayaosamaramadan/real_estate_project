@@ -15,6 +15,10 @@ class Tenant(models.Model):
     city = fields.Char(string='City')
     date_joined = fields.Date(string='Date Joined', default=fields.Date.today, readonly=True)
     date_of_birth = fields.Date(string='Date of Birth')
+    tenant_type = fields.Selection([
+        ('individual', 'Individual'),
+        ('company', 'Company'),
+    ], string='Tenant Type', required=True, default='individual')
     crm_id = fields.Many2one('crm.lead', string='CRM Lead')
     user_id = fields.Many2one('res.users', string='Related User', index=True)
 
