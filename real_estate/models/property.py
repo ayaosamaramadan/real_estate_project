@@ -14,6 +14,11 @@ class Property(models.Model):
     available = fields.Boolean(string='Available', default=True, index=True)    
     agent_id = fields.Many2one('res.users', string='sales person')
     lease_ids = fields.One2many('real_estate.lease', 'property_id', string='Leases')
+    payment_ids = fields.One2many(
+        'lease.payment',
+        'property_id',
+        string='Payments',
+    )
     deposite = fields.Float(string='Deposite', required=True)
     lease_count = fields.Integer(
         string='Leases',

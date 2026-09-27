@@ -56,7 +56,10 @@ class Lease(models.Model):
         string='Is Active', compute='_compute_is_active', store=False)
 
     next_elec_recharge = fields.Date(
-        string='Next Electricity Recharge', compute='_onchange_start_date', store=False)
+        string='Next Electricity Recharge',
+        compute='_compute_next_elec_recharge',
+        store=False,
+    )
 
     total_plumbing_cost = fields.Float(
         string='Total Plumbing Cost', compute='_compute_maintenance_costs')
@@ -128,16 +131,26 @@ class Lease(models.Model):
             self.monthly_rent = self.property_id.price
             self.deposit_paid = self.property_id.price * 0.10
 
+    @api.depends('start_date')
+    def _compute_next_elec_recharge(self):
+        """Set next electricity recharge date based on start date."""
+        for record in self:
+            if record.start_date:
+                record.next_elec_recharge = record.start_date + timedelta(days=30)
+            else:
+                record.next_elec_recharge = False
+
     @api.onchange('start_date')
     def _onchange_start_date(self):
-        """Set next electricity recharge date based on start date"""
-        if self.start_date:
+        """Keep the UI update behavior consistent for a single record."""
+        if self and len(self) == 1 and self.start_date:
             self.next_elec_recharge = self.start_date + timedelta(days=30)
 
     def create_maintenance_request(self):
         self.ensure_one()
         self.env['maintenance.request'].sudo().create({
             'lease_id': self.id,
+            'name': self.name,
             'issue_type': 'other',
             'description': 'Initial maintenance request',
             'scheduled_date': self.next_elec_recharge,

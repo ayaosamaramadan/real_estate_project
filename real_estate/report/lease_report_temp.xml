@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_lease_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Lease Summary: <span t-field="o.name" /></h2>
+
+                        <!-- Lease Details -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Tenant:</strong>
+                                <span t-field="o.tenant_id" />
+                            </div>
+                            <div class="col-6">
+                                <strong>Status:</strong>
+                                <span t-field="o.state" />
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Start Date:</strong>
+                                <span t-field="o.start_date" />
+                            </div>
+                            <div class="col-6">
+                                <strong>End Date:</strong>
+                                <span t-field="o.end_date" />
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Monthly Rent:</strong>
+                                <span t-field="o.monthly_rent"
+                                    t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                            </div>
+                        </div>
+
+                        <t t-if="o.payment_ids">
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h4>Payment History</h4>
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Payment Ref</th>
+                                                <th>Lease</th>
+                                                <th>Due Date</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="o.payment_ids" t-as="payment">
+                                                <tr>
+                                                    <td><span t-field="payment.name" /></td>
+                                                    <td><span t-field="payment.lease_id" /></td>
+                                                    <td><span t-field="payment.due_date" /></td>
+                                                    <td>
+                                                        <span t-field="payment.amount"
+                                                            t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                                    </td>
+                                                    <td><span t-field="payment.state" /></td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+
+                        <t t-set="lease_maintenance" t-value="maintenance_requests.get(o.id, [])" />
+                        <t t-if="lease_maintenance">
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h4>Maintenance Requests</h4>
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Request</th>
+                                                <th>Issue</th>
+                                                <th>Urgency</th>
+                                                <th>Scheduled Date</th>
+                                                <th>Assigned To</th>
+                                                <th>Actual Cost</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="lease_maintenance" t-as="maintenance">
+                                                <tr>
+                                                    <td><span t-field="maintenance.name" /></td>
+                                                    <td><span t-field="maintenance.issue_type" /></td>
+                                                    <td><span t-field="maintenance.urgency" /></td>
+                                                    <td><span t-field="maintenance.scheduled_date" /></td>
+                                                    <td><span t-field="maintenance.assigned_to" /></td>
+                                                    <td>
+                                                        <span t-field="maintenance.actual_cost"
+                                                            t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+
+                        <!-- Footer Note -->
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <p class="text-muted">
+                                    <small> Generated on <span
+                                            t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')" />
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
