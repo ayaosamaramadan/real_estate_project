@@ -29,6 +29,7 @@ Long description of module's purpose
         'wizard/mani.xml',
         'wizard/lease_wizard.xml',
         'wizard/tenant_wizard.xml',
+        'wizard/rent_roll_wizard_views.xml',
         'report/prop_report_temp.xml',
         'report/report.xml',
         'report/lease_report_temp.xml',
