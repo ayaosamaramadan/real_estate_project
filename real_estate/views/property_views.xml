@@ -58,6 +58,9 @@
 
                     <button name="prop_summary" string="Property Summary" type="object" 
                         class="oe_highlight" />
+
+                        <button name="export_excel" string="Excel Sheet" type="object"
+                            class="oe_highlight" />
                 </header>
 
 

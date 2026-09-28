@@ -1,24 +1,31 @@
 from odoo import models, fields, api
 from odoo.exceptions import AccessError
- 
+
+
 class Property(models.Model):
     # variables
     _name = 'real_estate.property'
     _description = 'Real Estate Property'
     name = fields.Char(string='Property Name', required=True, index=True)
     description = fields.Text(string='Description')
-    price = fields.Float(string='Monthly Rent', required=True)    
+    price = fields.Float(string='Monthly Rent', required=True)
     bedrooms = fields.Integer(string='Bedrooms', required=True)
     area = fields.Float(string='Area (sq ft)')
     image_1920 = fields.Image(string='Property Image')
-    available = fields.Boolean(string='Available', default=True, index=True)    
+    available = fields.Boolean(string='Available', default=True, index=True)
     agent_id = fields.Many2one('res.users', string='sales person')
-    lease_ids = fields.One2many('real_estate.lease', 'property_id', string='Leases')
+    lease_ids = fields.One2many(
+        'real_estate.lease', 'property_id', string='Leases')
     payment_ids = fields.One2many(
         'lease.payment',
         'property_id',
         string='Payments',
     )
+    created_date = fields.Datetime(
+        string='Created Date', default=fields.Datetime.now, readonly=True)
+
+    bathrooms = fields.Integer(string='Bathrooms', required=True)
+
     deposite = fields.Float(string='Deposite', required=True)
     lease_count = fields.Integer(
         string='Leases',
@@ -31,28 +38,28 @@ class Property(models.Model):
         store=True,
     )
     property_type = fields.Selection([
-            ('vila', 'Villa'),
-            ('apartment', 'Apartment'),
-            ('office', 'Office'),
-            ('shop', 'Shop'),
-            ('land', 'Land')
-        ], required=True)
+        ('vila', 'Villa'),
+        ('apartment', 'Apartment'),
+        ('office', 'Office'),
+        ('shop', 'Shop'),
+        ('land', 'Land')
+    ], required=True)
 
     def mark_as_occupied(self):
         """Mark property as no longer available"""
         for record in self:
             record.write({'available': False, 'price': record.price + 1000})
-    
+
     def mark_as_available(self):
         """Mark property as available"""
         for record in self:
             record.write({'available': True})
-            
+
     def update_description(self):
         """Update the description for the property"""
         for record in self:
             record.write({'description': 'This is a beautiful property.'})
-            
+
     def update_deposit(self):
         """Update the deposit amount for the property"""
         for record in self:
@@ -74,7 +81,7 @@ class Property(models.Model):
         for record in self:
             if record.agent_id:
                 record.write({'description': record.agent_id.name})
-    
+
     # on create if available ? edit bedrooms : error
     def create(self, vals):
         """Override the create method to set default values"""
@@ -100,8 +107,7 @@ class Property(models.Model):
         )
         action['domain'] = [('property_id', '=', self.id)]
         return action
-    
-   
+
     def view_main_requests(self):
         self.ensure_one()
         action = self.env['ir.actions.act_window']._for_xml_id(
@@ -120,7 +126,14 @@ class Property(models.Model):
         for record in self:
             record.main_count = len(record.lease_ids.mapped('main_ids'))
 
-
     def prop_summary(self):
         self.ensure_one()
         return self.env.ref('real_estate.action_report_property_summary').report_action(self)
+
+    def export_excel(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/real_estate/property/excel_export/{self.id}',
+            'target': 'new',
+        }

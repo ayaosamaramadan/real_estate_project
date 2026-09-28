@@ -136,7 +136,8 @@ class Lease(models.Model):
         """Set next electricity recharge date based on start date."""
         for record in self:
             if record.start_date:
-                record.next_elec_recharge = record.start_date + timedelta(days=30)
+                record.next_elec_recharge = record.start_date + \
+                    timedelta(days=30)
             else:
                 record.next_elec_recharge = False
 
@@ -210,7 +211,8 @@ class Lease(models.Model):
             return False
 
         if not self.tenant_id.email:
-            self.message_post(body="Could not send reminder: Tenant has no email.")
+            self.message_post(
+                body="Could not send reminder: Tenant has no email.")
             return False
 
         template.send_mail(self.id, force_send=True)
