@@ -149,7 +149,7 @@ class RealEstateController(http.Controller):
                     lease.state, ''), data_format)
                 row += 1
 
-        if property_obj.payment_ids:
+        if request.env.user.has_group('real_estate.group_property_manager') and property_obj.payment_ids:
             row += 2
             worksheet.merge_range(
                 row, 0, row, 3, 'PAYMENT HISTORY', header_format)
@@ -181,6 +181,10 @@ class RealEstateController(http.Controller):
                         payment.payment_method, ''), data_format
                 )
                 row += 1
+        elif not request.env.user.has_group('real_estate.group_property_manager'):
+            row += 2
+            worksheet.merge_range(
+                row, 0, row, 2, 'PAYMENT HISTORY HIDDEN', header_format)
 
         # Close workbook
         workbook.close()
