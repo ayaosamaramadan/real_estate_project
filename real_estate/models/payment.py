@@ -6,12 +6,12 @@ class LeasePayment(models.Model):
     _name = 'lease.payment'
     _description = 'Lease Payment'
     _order = 'due_date desc, id desc'
-    
+
     name = fields.Char(string='Payment Reference', required=True, copy=False, readonly=True, default='New')
     lease_id = fields.Many2one('real_estate.lease', string='Lease', required=True, ondelete='cascade')
-    tenant_id = fields.Many2one(related='lease_id.tenant_id', string='Tenant', store=True)
-    property_id = fields.Many2one(related='lease_id.property_id', string='Property', store=True)
-    
+    tenant_id = fields.Many2one('real_estate.tenant', related='lease_id.tenant_id', string='Tenant', store=True)
+    property_id = fields.Many2one('real_estate.property', string='Property', tracking=True)
+
     due_date = fields.Date(string='Due Date', required=True, tracking=True)
     amount = fields.Float(string='Amount Due', required=True, tracking=True)
     late_fee = fields.Float(string='Late Fee', tracking=True)
@@ -43,7 +43,19 @@ class LeasePayment(models.Model):
                 vals['name'] = self.env['ir.sequence'].next_by_code(
                     'lease.payment'
                 ) or 'New'
+
+            lease_id = vals.get('lease_id')
+            if lease_id and not vals.get('property_id'):
+                lease = self.env['real_estate.lease'].browse(lease_id)
+                vals['property_id'] = lease.property_id.id if lease.property_id else False
+
         return super().create(vals_list)
+
+    @api.onchange('lease_id')
+    def _onchange_lease_id(self):
+        if self.lease_id:
+            self.property_id = self.lease_id.property_id
+            self.tenant_id = self.lease_id.tenant_id
 
     @api.depends('amount', 'late_fee', 'late_fee_applied')
     def _compute_total_amount(self):

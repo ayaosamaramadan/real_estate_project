@@ -5,25 +5,26 @@ import xlsxwriter
 from odoo import http
 from odoo.http import request, content_disposition
 
+
 class RealEstateController(http.Controller):
-    
+
     @http.route('/real_estate/property/excel_export/<int:property_id>', type='http', auth='user')
     def property_excel_export(self, property_id, **kwargs):
         """
         Export single property details to Excel
         """
         property_obj = request.env['real_estate.property'].browse(property_id)
-        
+
         if not property_obj.exists():
             return request.not_found()
-        
+
         # Create Excel file in memory
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        
+
         # Add worksheet
         worksheet = workbook.add_worksheet('Property Details')
-        
+
         # Define formats
         header_format = workbook.add_format({
             'bold': True,
@@ -33,50 +34,53 @@ class RealEstateController(http.Controller):
             'align': 'center',
             'valign': 'vcenter'
         })
-        
+
         title_format = workbook.add_format({
             'bold': True,
             'font_size': 14,
             'align': 'left'
         })
-        
+
         label_format = workbook.add_format({
             'bold': True,
             'bg_color': '#F2F2F2',
             'border': 1
         })
-        
+
         data_format = workbook.add_format({
             'border': 1
         })
-        
+
         currency_format = workbook.add_format({
             'num_format': '$#,##0.00',
             'border': 1
         })
-        
+
         date_format = workbook.add_format({
             'num_format': 'yyyy-mm-dd',
             'border': 1
         })
-        
+
         # Set column widths
         worksheet.set_column('A:A', 25)
         worksheet.set_column('B:B', 30)
         worksheet.set_column('C:E', 15)
-        
+
         # Title
         row = 0
-        worksheet.merge_range(row, 0, row, 1, f'Property Report: {property_obj.name}', title_format)
+        worksheet.merge_range(
+            row, 0, row, 1, f'Property Report: {property_obj.name}', title_format)
         row += 2
-        
+
         # Basic Information Section
-        worksheet.merge_range(row, 0, row, 1, 'BASIC INFORMATION', header_format)
+        worksheet.merge_range(
+            row, 0, row, 1, 'BASIC INFORMATION', header_format)
         row += 1
-        
+
         property_data = [
             ('Property Name', property_obj.name),
-            ('Property Type', dict(property_obj._fields['property_type'].selection).get(property_obj.property_type, '')),
+            ('Property Type', dict(property_obj._fields['property_type'].selection).get(
+                property_obj.property_type, '')),
             ('Status', 'Available' if property_obj.available else 'Occupied'),
             ('Agent', property_obj.agent_id.name or ''),
             ('Area (sq ft)', property_obj.area),
@@ -84,7 +88,7 @@ class RealEstateController(http.Controller):
             ('Bathrooms', property_obj.bathrooms),
             ('Created Date', property_obj.created_date),
         ]
-        
+
         for label, value in property_data:
             worksheet.write(row, 0, label, label_format)
             if isinstance(value, datetime):
@@ -92,36 +96,38 @@ class RealEstateController(http.Controller):
             else:
                 worksheet.write(row, 1, value or '', data_format)
             row += 1
-        
+
         row += 1
-        
+
         # Pricing Section
         # worksheet.write(row, 0, 'PRICING & REVENUE', header_format)
-        worksheet.merge_range(row, 0, row, 1, 'PRICING & REVENUE', header_format)
+        worksheet.merge_range(
+            row, 0, row, 1, 'PRICING & REVENUE', header_format)
         row += 1
-        
+
         worksheet.write(row, 0, 'Monthly Rent', label_format)
         worksheet.write(row, 1, property_obj.price, currency_format)
         row += 1
-        
+
         worksheet.write(row, 0, 'Security Deposit', label_format)
         worksheet.write(row, 1, property_obj.deposite, currency_format)
         row += 1
-        
+
         row += 2
-        
+
         # Leases Table
         if property_obj.lease_ids:
             # worksheet.write(row, 0, 'LEASE HISTORY', header_format)
-            worksheet.merge_range(row, 0, row, 1, 'LEASE HISTORY', header_format)
+            worksheet.merge_range(
+                row, 0, row, 1, 'LEASE HISTORY', header_format)
             row += 1
-            
+
             # Table headers
             headers = ['Tenant', 'Rent', 'Start Date', 'End Date', 'Status']
             for col, header in enumerate(headers):
                 worksheet.write(row, col, header, header_format)
             row += 1
-            
+
             # Table data
             for lease in property_obj.lease_ids.sorted(key=lambda r: r.start_date, reverse=True):
                 worksheet.write(row, 0, lease.tenant_id.name, data_format)
@@ -129,7 +135,8 @@ class RealEstateController(http.Controller):
                 if lease.start_date:
                     worksheet.write_datetime(
                         row, 2,
-                        datetime.combine(lease.start_date, datetime.min.time()),
+                        datetime.combine(lease.start_date,
+                                         datetime.min.time()),
                         date_format,
                     )
                 if lease.end_date:
@@ -138,16 +145,50 @@ class RealEstateController(http.Controller):
                         datetime.combine(lease.end_date, datetime.min.time()),
                         date_format,
                     )
-                worksheet.write(row, 4, dict(lease._fields['state'].selection).get(lease.state, ''), data_format)
+                worksheet.write(row, 4, dict(lease._fields['state'].selection).get(
+                    lease.state, ''), data_format)
                 row += 1
-        
+
+        if property_obj.payment_ids:
+            row += 2
+            worksheet.merge_range(
+                row, 0, row, 3, 'PAYMENT HISTORY', header_format)
+            row += 1
+
+            payment_headers = ['Name', 'Date', 'Amount', 'Type']
+            for col, header in enumerate(payment_headers):
+                worksheet.write(row, col, header, header_format)
+            row += 1
+
+            payment_methods = dict(
+                property_obj.payment_ids._fields['payment_method'].selection
+            )
+            for payment in property_obj.payment_ids.sorted(
+                key=lambda record: record.payment_date or record.due_date,
+                reverse=True,
+            ):
+                worksheet.write(row, 0, payment.name or '', data_format)
+                payment_date = payment.payment_date or payment.due_date
+                if payment_date:
+                    worksheet.write_datetime(
+                        row, 1,
+                        datetime.combine(payment_date, datetime.min.time()),
+                        date_format,
+                    )
+                worksheet.write(row, 2, payment.amount or 0.0, currency_format)
+                worksheet.write(
+                    row, 3, payment_methods.get(
+                        payment.payment_method, ''), data_format
+                )
+                row += 1
+
         # Close workbook
         workbook.close()
-        
+
         # Prepare response
         output.seek(0)
         filename = f'Property_{property_obj.name.replace(" ", "_")}.xlsx'
-        
+
         return request.make_response(
             output.read(),
             headers=[
