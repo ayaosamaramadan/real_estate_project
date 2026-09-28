@@ -47,4 +47,16 @@
           parent="menu_real_estate_root"
           sequence="60" />
 
+     <menuitem id="menu_maintenance_report_wizard"
+          name="Maintenance Report"
+          parent="menu_real_estate_reports"
+          action="action_maintenance_report_wizard"
+          sequence="10" />
+
+     <menuitem id="menu_rent_roll_report"
+          name="Rent Roll Report"
+          parent="menu_real_estate_reports"
+          action="action_rent_roll_wizard"
+          sequence="20" />
+
 </odoo>

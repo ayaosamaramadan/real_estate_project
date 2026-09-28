@@ -36,11 +36,4 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
-
-    <!-- Reports Menu -->
-    <menuitem id="menu_real_estate_reports"
-        name="Reporting"
-        action="action_rent_roll_wizard"
-        parent="menu_real_estate_root"
-        sequence="50" />
 </odoo>
