@@ -7,19 +7,32 @@ password = 'admin'
 
 common = xmlrpc.client.ServerProxy(f'{url}/xmlrpc/2/common')
 uid = common.authenticate(db, username, password, {})
+if not uid:
+    raise SystemExit(
+        f"Odoo login failed for user '{username}' on database '{db}'. "
+        'Check the database name and the user login/password.'
+    )
+
 print(f"Logged in as user Name: {username} and User ID: {uid}")
 models = xmlrpc.client.ServerProxy(f'{url}/xmlrpc/2/object')
 
-property_ids = models.execute_kw(
+tenant_ids = models.execute_kw(
     db, uid, password,
-    'real_estate.property', 'search',
+    'real_estate.tenant', 'search',
     [[]], {'limit': 1}
 )
-print(f"Found property: {property_ids}")
+print(f"Found tenant: {tenant_ids}")
 
-property_data = models.execute_kw(
+tenant_data = models.execute_kw(
     db, uid, password,
-    'real_estate.property', 'read',
-    [property_ids, ['name', 'price']]
+    'real_estate.tenant', 'read',
+    [tenant_ids, ['name', 'phone', 'email']]
 )
-print(f"Property data: {property_data}")
+print(f"Tenant data: {tenant_data}")
+
+# Update record
+models.execute_kw(
+    db, uid, password,
+    'real_estate.tenant', 'write',
+    [[tenant_ids[0]], {'phone': '+1234567890'}]
+)
