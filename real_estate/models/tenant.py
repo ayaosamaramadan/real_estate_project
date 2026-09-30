@@ -33,6 +33,8 @@ class Tenant(models.Model):
     lease_ids = fields.One2many('real_estate.lease', 'tenant_id', string='Leases')
     
     age_tenant = fields.Integer(string='Age', compute='_compute_age', store=True)
+    
+    created_from_api = fields.Boolean(string='Created from API', default=False)
        
     
     

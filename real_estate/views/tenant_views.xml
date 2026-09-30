@@ -37,8 +37,8 @@
                         </h1>
                     </div>
                     <group string="Contact Details">
-                      <field name="tenant_type" widget="radio" options="{'horizontal': true}" />
-                              <group>
+                        <field name="tenant_type" widget="radio" options="{'horizontal': true}" />
+                        <group>
                             <field name="email" />
                             <field name="user_id" string="Related User" />
                             <field name="phone" />
@@ -49,7 +49,7 @@
                             <field name="date_of_birth" invisible="tenant_type == 'company'" />
                             <field name="age_category" />
                             <field name="date_joined" />
-                              <field name="age_tenant"/>
+                            <field name="age_tenant" />
                         </group>
                     </group>
                     <group>
@@ -65,13 +65,13 @@
                         <page string="Leases">
                             <field name="lease_ids">
                                 <tree create="false">
-                                    <field name="name"/>
-                                  
-                                    <field name="tenant_id"/>
-                                    <field name="start_date"/>
-                                    <field name="end_date"/>
+                                    <field name="name" />
+
+                                    <field name="tenant_id" />
+                                    <field name="start_date" />
+                                    <field name="end_date" />
                                 </tree>
-                            </field>                                
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
@@ -92,6 +92,7 @@
                 <field name="city" />
                 <field name="date_joined" />
                 <field name="active" />
+                <field name="created_from_api" />
             </tree>
         </field>
     </record>
@@ -144,6 +145,8 @@
                         context="{'group_by': 'age_category'}" />
                     <filter string="age_category" name="group_by_city"
                         context="{'group_by': 'city'}" />
+                    <filter string="Created from API" name="created_from_api"
+                        domain="[('created_from_api', '=', True)]" />
                 </group>
             </search>
 

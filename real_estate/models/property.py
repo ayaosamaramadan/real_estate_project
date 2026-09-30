@@ -26,7 +26,7 @@ class Property(models.Model):
 
     bathrooms = fields.Integer(string='Bathrooms', required=True)
 
-    deposite = fields.Float(string='Deposite', required=True)
+    deposite = fields.Float(string='Deposite', required=False, default=0.0)
     lease_count = fields.Integer(
         string='Leases',
         compute='_compute_lease_count',
@@ -41,9 +41,12 @@ class Property(models.Model):
         ('vila', 'Villa'),
         ('apartment', 'Apartment'),
         ('office', 'Office'),
+        ('house', 'House'),
         ('shop', 'Shop'),
         ('land', 'Land')
     ], required=True)
+    
+    external_id = fields.Char(string='External ID', index=True)
 
     def mark_as_occupied(self):
         """Mark property as no longer available"""
